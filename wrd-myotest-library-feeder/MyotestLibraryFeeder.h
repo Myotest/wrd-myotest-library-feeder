@@ -34,7 +34,7 @@
 #include "time.h"
 #include "sys/time.h"
 
-#include "myotest-step-analysis-library/wrd_public.h"
+#include "myotest-library-step-analysis/wrd_public.h"
 #include "myotest-prerecorded-data-collection/datacollection.h"
 #include "myotest-step-analysis-data-set-1/dataset.h"
 #include "myotest-step-analysis-data-set-2/dataset.h"
