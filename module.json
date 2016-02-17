@@ -15,7 +15,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "uiframework": "~2.0.0",
-    "myotest-step-analysis-library": "^1.0.0",
+    "myotest-library-step-analysis": "^1.0.0",
     "myotest-prerecorded-data-collection": "^0.2.0",
     "myotest-step-analysis-data-set-1": "^0.1.0",
     "myotest-step-analysis-data-set-2": "^0.1.0"
