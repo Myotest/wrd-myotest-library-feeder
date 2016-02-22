@@ -1,12 +1,12 @@
 {
   "name": "wrd-myotest-library-feeder",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Class which initialize and feed the Myotest Library",
   "keywords": [
     "Myotest",
     "myotest"
-    ],
-  "author": "Steve Devènes <std@myotest.com>",
+  ],
+  "author": "Steve Dev\u00e8nes <std@myotest.com>",
   "repository": {
     "url": "",
     "type": "git"
