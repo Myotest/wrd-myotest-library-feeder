@@ -14,10 +14,14 @@
   "homepage": "www.myotest.com",
   "license": "Apache-2.0",
   "dependencies": {
-    "uiframework": "~2.0.0",
+    "uiframework": "^4.0.0",
     "myotest-library-step-analysis": "^1.0.0",
     "myotest-prerecorded-data-collection": "^0.2.0",
     "myotest-step-analysis-data-set-1": "^0.1.0",
-    "myotest-step-analysis-data-set-2": "^0.1.0"
+    "myotest-step-analysis-data-set-2": "^0.1.0",
+    "wrd-sensor-gyroscope-bosch-bmg160": "~0.1.0",
+    "wrd-sensor-accelerometer-bosch-bma2x2": "^1.0.0",
+    "gpio-switch": "^1.0.0",
+    "wrd-utilities": "^1.0.0"
   }
 }
