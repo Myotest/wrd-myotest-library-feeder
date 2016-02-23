@@ -56,42 +56,48 @@ static InterruptInEx airq(YOTTA_CFG_HARDWARE_WEARABLE_REFERENCE_DESIGN_SENSOR_AC
 static BMA2X2 accel(YOTTA_CFG_HARDWARE_WEARABLE_REFERENCE_DESIGN_SENSOR_ACCELEROMETER_I2C_NAME,
                     apower, airq);
 
-static uint8_t rawBuffer[250];
-static uint32_t offset = 0;
+static uint8_t rawBuffer[6];
 
 static void getRawBuffer();
 
 static void getRawBufferDone(uint8_t count)
 {
-    BMA2X2::acceleration_t measurement;
-
-    for (size_t index = 0; index < count; index++)
-    {
-        accel.getSampleFromBuffer(rawBuffer, index, measurement);
-
-        myoAPI_acquisition(measurement.offset + offset,
-                          (measurement.x -  500) / 15,
-                          (measurement.y - 1000) / 16,
-                          (measurement.z - 5000) / 15);
-    }
-
-    myoAPI_process();
-
-    offset += measurement.offset;
-
+    /* Reschedule next data dump */
     minar::Scheduler::postCallback(getRawBuffer)
-        .delay(minar::milliseconds(50))
+        .delay(minar::milliseconds(10))
         .tolerance(1);
+
+    if (count > 0)
+    {
+        BMA2X2::acceleration_t measurement = { 0, 0, 0, 0};
+        accel.getSampleFromBuffer(rawBuffer, 0, measurement);
+
+        myoAPI_acquisition(minar::ticks(minar::platform::getTime()),
+                           measurement.x,
+                           measurement.y,
+                           measurement.z);
+
+        myoAPI_process();
+    }
 }
 
 static void getRawBuffer()
 {
-    accel.getRawBuffer(rawBuffer, sizeof(rawBuffer), getRawBufferDone);
+    /* get one frame (6 bytes) */
+    accel.getRawBuffer(rawBuffer, 6, getRawBufferDone);
+}
+
+static void accelReady()
+{
+    minar::Scheduler::postCallback(getRawBuffer)
+        .delay(minar::milliseconds(10))
+        .tolerance(1);
 }
 
 static void setFifo()
 {
-    accel.setFifo(BMA2X2::FIFO_STREAM, getRawBuffer);
+    /* set FIFO to only contain 1 frame */
+    accel.setFifo(BMA2X2::FIFO_BYPASS, accelReady);
 }
 
 static void setBandwidth()
@@ -102,7 +108,7 @@ static void setBandwidth()
 static void setRange()
 {
     gyro.sleep();
-    accel.setRange(BMA2X2::RANGE_8G, setBandwidth);
+    accel.setRange(BMA2X2::RANGE_2G, setBandwidth);
 }
 
 static void startAccelerometer()
@@ -125,7 +131,7 @@ MyotestLibraryFeeder* MyotestLibraryFeeder::Instance()
 }
 MyotestLibraryFeeder::~MyotestLibraryFeeder()
 {
-    //myoAPI_release();
+    myoAPI_release();
 }
 
 void MyotestLibraryFeeder::init()
@@ -141,8 +147,8 @@ void MyotestLibraryFeeder::start()
     startAccelerometer();
 #else
     minar::Scheduler::postCallback(this,&MyotestLibraryFeeder::getAcceleration).delay(minar::milliseconds(10));
-    minar::Scheduler::postCallback(this,&MyotestLibraryFeeder::resetCounters).delay(minar::milliseconds(10000));
 #endif
+    minar::Scheduler::postCallback(this,&MyotestLibraryFeeder::resetCounters).delay(minar::milliseconds(10000));
 }
 
 void MyotestLibraryFeeder::getAcceleration()
