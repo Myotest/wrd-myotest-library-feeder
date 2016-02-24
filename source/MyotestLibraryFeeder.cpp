@@ -143,7 +143,7 @@ void MyotestLibraryFeeder::init()
 
 void MyotestLibraryFeeder::start()
 {
-#if 1
+#if YOTTA_CFG_HARDWARE_WEARABLE_REFERENCE_DESIGN_SENSOR_ACCELEROMETER_PRESENT
     startAccelerometer();
 #else
     minar::Scheduler::postCallback(this,&MyotestLibraryFeeder::getAcceleration).delay(minar::milliseconds(10));
