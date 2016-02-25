@@ -23,9 +23,6 @@
     "uiframework": "^4.0.0",
     "myotest-library-step-analysis": "^1.0.0",
     "myotest-prerecorded-data-collection": "^1.0.0",
-    "wrd-sensor-gyroscope-bosch-bmg160": "~0.1.0",
-    "wrd-sensor-accelerometer-bosch-bma2x2": "^1.0.0",
-    "gpio-switch": "^1.0.0",
-    "wrd-utilities": "^1.0.0"
+    "wrd-sensor-accelerometer": "~0.1.0"
   }
 }
