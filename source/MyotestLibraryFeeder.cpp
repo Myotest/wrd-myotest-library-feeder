@@ -32,6 +32,8 @@
 /*****************************************************************************/
 /*****************************************************************************/
 
+#if YOTTA_CFG_HARDWARE_WEARABLE_REFERENCE_DESIGN_SENSOR_ACCELEROMETER_PRESENT
+
 #include "wrd-sensor-accelerometer/BMA2X2.h"
 #include "wrd-sensor-gyroscope/BMG160.h"
 #include "gpio-switch/DigitalOutEx.h"
@@ -115,6 +117,8 @@ static void startAccelerometer()
 {
     accel.powerOn(setRange);
 }
+
+#endif
 
 /*****************************************************************************/
 /*****************************************************************************/
